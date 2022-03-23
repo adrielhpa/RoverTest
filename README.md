@@ -8,14 +8,19 @@ rover is deployed, then the command will contain more than one rover command.
 
 Possible commands:
 
-M: move to next grid location
-L: turn left
-R: turn right
+	M: move to next grid location
+
+	L: turn left
+
+	R: turn right
 
 Example Command
-5 5
-1 2 N
-LML
+
+	5 5
+
+	1 2 N
+
+	LML
 
 The “5 5” part of the command indicates the size of the plateau. “1 2 N” indicates that the
 rover is positioned on grid square 1,2 and is pointing north. So, if the rover moved, it would
@@ -28,10 +33,14 @@ There can also be two or more rovers, in which case the instructions for all rov
 sent. Of course, the size of the exploration plateau will be the same. For example, the
 command below will instruct two rovers on the 5 by 5 plateau:
 
-5 5
-1 2 N
-LML
-3 3 E
-MMR
+	5 5
+
+	1 2 N
+
+	LML
+
+	3 3 E
+
+	MMR
 
 Your task is to develop the software that will parse the command and move the rover(s).

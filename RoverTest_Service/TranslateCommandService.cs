@@ -12,6 +12,11 @@ namespace RoverTest_Service
     {
         public Command SetCommand(string[] plateauCommand, string[] positionCommand, string movement)
         {
+            if(plateauCommand.Length == 0 || positionCommand.Length == 0|| movement == "")
+            {
+                throw new ArgumentException("Command has null values. Please check your input.");
+            }
+
             Command command = new();
 
             command.PlateauHeight = Convert.ToInt32(plateauCommand[0]);
@@ -48,21 +53,25 @@ namespace RoverTest_Service
             {
                 if (movement[i] == 'L')
                 {
-                    if (command.PositionDirection == "N")
+                    if (afterCommand.PositionDirection == "N")
                         afterCommand.PositionDirection = "W";
-                    else if (command.PositionDirection == "E")
-                        afterCommand.PositionDirection = "N";
-                    else if (command.PositionDirection == "S")
+                    else if (afterCommand.PositionDirection == "W")
+                        afterCommand.PositionDirection = "S";
+                    else if (afterCommand.PositionDirection == "S")
                         afterCommand.PositionDirection = "E";
+                    else if (afterCommand.PositionDirection == "E")
+                        afterCommand.PositionDirection = "N";
                 }
 
                 if (movement[i] == 'R')
                 {
-                    if (command.PositionDirection == "N")
+                    if (afterCommand.PositionDirection == "N")
                         afterCommand.PositionDirection = "E";
-                    else if (command.PositionDirection == "S")
+                    else if (afterCommand.PositionDirection == "E")
+                        afterCommand.PositionDirection = "S";
+                    else if (afterCommand.PositionDirection == "S")
                         afterCommand.PositionDirection = "W";
-                    else if (command.PositionDirection == "W")
+                    else if (afterCommand.PositionDirection == "W")
                         afterCommand.PositionDirection = "N";
                 }
 

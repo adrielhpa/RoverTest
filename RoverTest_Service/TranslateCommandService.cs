@@ -16,14 +16,75 @@ namespace RoverTest_Service
 
             command.PlateauHeight = Convert.ToInt32(plateauCommand[0]);
             command.PlateauWidth = Convert.ToInt32(plateauCommand[1]);
-            
+
             command.PositionDirection = positionCommand[2];
             command.PositionHeight = Convert.ToInt32(positionCommand[0]);
             command.PositionWidth = Convert.ToInt32(positionCommand[1]);
-            
+
             command.MovementCommand = movement;
 
+            command.AfterCommand = DoingMovements(command);
+
             return command;
+        }
+
+        public Command DoingMovements(Command command)
+        {
+            Command afterCommand = new() {
+                PlateauHeight = command.PlateauHeight,
+                PlateauWidth = command.PlateauWidth,
+                PositionDirection = command.PositionDirection,
+                PositionHeight = command.PositionHeight,
+                PositionWidth = command.PositionWidth,
+                IsValid = true
+            };
+
+            var movement = command.MovementCommand.ToCharArray();
+            afterCommand.PositionDirection = command.PositionDirection;
+            afterCommand.PositionHeight = command.PositionHeight;
+            afterCommand.PositionWidth = command.PositionWidth;
+
+            for (int i = 0; i < 3; i++)
+            {
+                if (movement[i] == 'L')
+                {
+                    if (command.PositionDirection == "N")
+                        afterCommand.PositionDirection = "W";
+                    else if (command.PositionDirection == "E")
+                        afterCommand.PositionDirection = "N";
+                    else if (command.PositionDirection == "S")
+                        afterCommand.PositionDirection = "E";
+                }
+
+                if (movement[i] == 'R')
+                {
+                    if (command.PositionDirection == "N")
+                        afterCommand.PositionDirection = "E";
+                    else if (command.PositionDirection == "S")
+                        afterCommand.PositionDirection = "W";
+                    else if (command.PositionDirection == "W")
+                        afterCommand.PositionDirection = "N";
+                }
+
+                if (movement[i] == 'M')
+                {
+                    if (afterCommand.PositionDirection == "N")
+                        afterCommand.PositionHeight += 1;
+                    else if (afterCommand.PositionDirection == "S")
+                        afterCommand.PositionHeight -= 1;
+                    else if (afterCommand.PositionDirection == "E")
+                        afterCommand.PositionWidth += 1;
+                    else if (afterCommand.PositionDirection == "W")
+                        afterCommand.PositionWidth -= 1;
+                }
+
+                if (afterCommand.PositionWidth <= 0 || afterCommand.PositionHeight <= 0)
+                {
+                    command.IsValid = false;
+                    afterCommand.IsValid = false;
+                }
+            }
+            return afterCommand;
         }
     }
 }

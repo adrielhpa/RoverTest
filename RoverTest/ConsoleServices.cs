@@ -72,7 +72,7 @@ namespace RoverTest_Console
             {
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine($"Plateau Size: h{command.PlateauHeight} x w{command.PlateauWidth}");
-                Console.WriteLine($"Position: h{command.PositionHeight} and w{command.PositionWidth}");
+                Console.WriteLine($"Position: h{command.PositionHeight} and w{command.PositionWidth} pointed to {command.PositionDirection}");
                 Console.WriteLine($"Movement: {command.MovementCommand}");
                 Console.WriteLine();
                 Console.WriteLine($"Final Position: h{command.AfterCommand.PositionHeight} and w{command.AfterCommand.PositionWidth} pointed to {command.AfterCommand.PositionDirection}");

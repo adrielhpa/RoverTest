@@ -24,7 +24,7 @@ namespace RoverTest_Web.Controllers
         {
             try
             {
-                var result = translateCommandService.SetCommand(command.PlateauSize, command.Position, command.Movement);
+                var result = translateCommandService.ParseCommand(command.PlateauSize, command.Position, command.Movement);
                 return result;
             }
             catch (Exception ex)

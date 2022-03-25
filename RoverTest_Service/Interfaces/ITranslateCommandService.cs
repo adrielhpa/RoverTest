@@ -9,7 +9,7 @@ namespace RoverTest_Service.Interfaces
 {
     public interface ITranslateCommandService
     {
-        Command SetCommand(string[] plateauCommand, string[] positionCommand, string movement);
+        Command ParseCommand(string[] plateauCommand, string[] positionCommand, string movement);
         Command DoingMovements(Command command);
     }
 }

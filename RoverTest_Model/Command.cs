@@ -9,6 +9,7 @@ namespace RoverTest.Model
         public string PositionDirection { get; set; }
         public string MovementCommand { get; set; }
         public bool IsValid { get; set; } = true;
+        public string Error { get; set; } = string.Empty;
         public virtual Command AfterCommand { get; set; }
     }
 }

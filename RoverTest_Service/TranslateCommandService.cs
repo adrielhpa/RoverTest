@@ -4,38 +4,71 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace RoverTest_Service
 {
     public class TranslateCommandService : ITranslateCommandService
     {
-        public Command SetCommand(string[] plateauCommand, string[] positionCommand, string movement)
+        public Command ParseCommand(string[] plateauCommand, string[] positionCommand, string movement)
         {
-            if(plateauCommand.Length == 0 || positionCommand.Length == 0|| movement == "")
+            if (plateauCommand.Length == 0 || positionCommand.Length == 0 || movement == "")
             {
-                throw new ArgumentException("Command has null values. Please check your input.");
+                throw new ArgumentException("Command has any empty values. Please check your input.");
             }
+
+            var regexPlateau = @"^[1-9]$";
+            var regexPosition = @"^[1-9NWES]$";
+            var regexMovement = @"^[MRL]+[MRL]+[MRL]$";
+            bool matchPlateau = true;
+            bool matchPosition = true;
+
+            foreach (var item in plateauCommand)
+            {
+                matchPlateau = Regex.IsMatch(item, regexPlateau);
+                if (!matchPlateau)
+                    break;
+            }
+
+            foreach (var item in positionCommand)
+            {
+                matchPosition = Regex.IsMatch(item, regexPosition);
+                if (!matchPosition)
+                    break;
+            }
+
+            var matchMovement = Regex.IsMatch(movement, regexMovement);
 
             Command command = new();
 
-            command.PlateauHeight = Convert.ToInt32(plateauCommand[0]);
-            command.PlateauWidth = Convert.ToInt32(plateauCommand[1]);
+            if (!matchPlateau || !matchPosition || !matchMovement)
+            {
+                command.IsValid = false;
+                command.Error = "Command has invalid formats. Please check your input.";
+            }
 
-            command.PositionDirection = positionCommand[2];
-            command.PositionHeight = Convert.ToInt32(positionCommand[0]);
-            command.PositionWidth = Convert.ToInt32(positionCommand[1]);
+            if (command.Error == "")
+            {
+                command.PlateauHeight = Convert.ToInt32(plateauCommand[0]);
+                command.PlateauWidth = Convert.ToInt32(plateauCommand[1]);
 
-            command.MovementCommand = movement;
+                command.PositionDirection = positionCommand[2];
+                command.PositionHeight = Convert.ToInt32(positionCommand[0]);
+                command.PositionWidth = Convert.ToInt32(positionCommand[1]);
 
-            command.AfterCommand = DoingMovements(command);
+                command.MovementCommand = movement;
+
+                command.AfterCommand = DoingMovements(command);
+            }
 
             return command;
         }
 
         public Command DoingMovements(Command command)
         {
-            Command afterCommand = new() {
+            Command afterCommand = new()
+            {
                 PlateauHeight = command.PlateauHeight,
                 PlateauWidth = command.PlateauWidth,
                 PositionDirection = command.PositionDirection,
@@ -87,7 +120,7 @@ namespace RoverTest_Service
                         afterCommand.PositionWidth -= 1;
                 }
 
-                if (afterCommand.PositionWidth <= 0 || afterCommand.PositionHeight <= 0)
+                if (afterCommand.PositionWidth <= 0 || afterCommand.PositionHeight <= 0 || afterCommand.PositionWidth > command.PlateauWidth || afterCommand.PositionHeight > command.PlateauHeight)
                 {
                     command.IsValid = false;
                     afterCommand.IsValid = false;

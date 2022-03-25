@@ -10,8 +10,9 @@ bool valid =true;
 
 do
 {
-    consoleServices.GetData();
-    valid = await consoleServices.RunAsync();
+    var list = consoleServices.GetData();
+    valid = await consoleServices.RunAsync(list);
+
 }while(!valid);
 
 

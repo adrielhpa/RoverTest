@@ -14,6 +14,5 @@
   <ItemGroup>
     <ProjectReference Include="..\RoverTest\RoverTest_Console.csproj" />
     <ProjectReference Include="..\RoverTest_Service\RoverTest_Service.csproj" />
-    <Content Include="CommandTests.cs" />
   </ItemGroup>
 </Project>

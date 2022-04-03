@@ -20,20 +20,22 @@ namespace RoverTest_Service
 
             var regexPlateau = @"^[1-9]$";
             var regexPosition = @"^[1-9NWES]$";
-            var regexMovement = @"^[MRL]+[MRL]+[MRL]$";
+            var regexMovement = @"^[MRL]+$";
             bool matchPlateau = true;
             bool matchPosition = true;
 
             foreach (var item in plateauCommand)
             {
-                matchPlateau = Regex.IsMatch(item, regexPlateau);
+                if (item != "")
+                    matchPlateau = Regex.IsMatch(item, regexPlateau);
                 if (!matchPlateau)
                     break;
             }
 
             foreach (var item in positionCommand)
             {
-                matchPosition = Regex.IsMatch(item, regexPosition);
+                if (item != "")
+                    matchPosition = Regex.IsMatch(item, regexPosition);
                 if (!matchPosition)
                     break;
             }
@@ -82,7 +84,7 @@ namespace RoverTest_Service
             afterCommand.PositionHeight = command.PositionHeight;
             afterCommand.PositionWidth = command.PositionWidth;
 
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < movement.Length; i++)
             {
                 if (movement[i] == 'L')
                 {
